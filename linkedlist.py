@@ -47,24 +47,35 @@ class List:
                     self.pirmais.prev = None
                 return
         
-        tagadejais = self.pirmais
+        current = self.pirmais
         for i in range(index - 1):
-            if tagadejais is None:
-                raise IndexError("Index out of range")
-            tagadejais = tagadejais.next
+            if current is None:
+                return            
+            current = current.next
         
-        if tagadejais is None or tagadejais.next is None:
-            raise IndexError("Index out of range")
+        if current is None or current.next is None:
+            return
         
-        tagadejais.next = tagadejais.next.next
-        if tagadejais.next is not None:
-            tagadejais.next.prev = tagadejais
+        current.next = current.next.next
+        if current.next is not None:
+            current.next.prev = current
     
-    def read(self):
-        esosais = self.pirmais
-        while esosais:
-            esosais.read()
-            esosais = esosais.next
+    def read(self, index = None):
+        if index is None:
+            esosais = self.pirmais
+            while esosais: 
+                esosais.read()
+                esosais = esosais.next
+        else:
+            current = self.pirmais
+            for i in range(index):
+                if current is None:
+                    return
+                current = current.next
+
+            if current is not None:
+                current.read()
+        
 
 saraksts = List("suns")
 saraksts.add(24)
@@ -73,9 +84,13 @@ saraksts.add("pirmais", 0)
 saraksts.add("ceturtais", 3)
 saraksts.add("beigas",33)
 saraksts.read()
+
 print("Noņem \n")
+
 saraksts.remove(2)
 saraksts.read()
+saraksts.read(2)
+
 
 
 
